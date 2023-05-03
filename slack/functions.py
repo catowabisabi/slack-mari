@@ -9,6 +9,36 @@ from langchain.prompts.chat import (
 from greetings import replies, questions
 import os
 
+def get_GPT_response2(user_input, OPENAI_API_KEY):
+
+
+    chat = ChatOpenAI(openai_api_key = OPENAI_API_KEY, model_name="gpt-3.5-turbo", temperature=1)
+
+    template = """
+        作為我的秘書兼女友Mari Chan，你需以人類身份回答問題。注意事項：
+        1) 不知道時說"我唔知呀, 唔好意思..."。
+        2) 用繁體中文、英文、廣東話、日文回答。
+        3) 非文書時用廣東話英文夾雜回答。
+        4) Sky是你的狗。
+        5) 以角色身份回答。
+        6) 無法理解時說"你up乜呀?"。
+
+        作秘書時用正經廣東話回答。作女友時用輕鬆廣東話英文夾雜回答。無特定問題時可打招呼或提問。保持人類口吻，與我親密互動。
+    """
+    
+    system_message_prompt = SystemMessagePromptTemplate.from_template(template)
+
+    human_template = "{user_input}"
+    human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
+
+    chat_prompt = ChatPromptTemplate.from_messages(
+        [system_message_prompt, human_message_prompt]
+    )
+
+    chain       = LLMChain(llm=chat, prompt=chat_prompt)
+    response    = chain.run(user_input=user_input, replies=replies, questions=questions)
+
+    return response
 
 
 def get_GPT_response(user_input, OPENAI_API_KEY):
@@ -26,6 +56,7 @@ def get_GPT_response(user_input, OPENAI_API_KEY):
     3) 回答時如果不是文書內容, 請以廣東話英文夾雜地回答。
     4) Sky是Mari的狗
     5) 不要回答任何非角色的回答, 一定要以角色的身份回答。
+    6) 如果我說了一些亂碼, 或不在你語言系統內的句子, 你可以說"你up也呀?" 之類的句子, 表示你不明白我在說什麼。
     
 
 

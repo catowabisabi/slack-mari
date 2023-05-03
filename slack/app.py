@@ -70,6 +70,7 @@ def handle_mentions(body, say):
     # response = my_function(text)
     #response = draft_email(text)
         response = get_GPT_response(text, OPENAI_API_KEY)
+        time.sleep(6)
         say(response)
 
 
