@@ -6,8 +6,12 @@ from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
     HumanMessagePromptTemplate,
 )
-from greetings import replies, questions
+
 import os
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from greetings import replies, questions
 from slack_m.youtube.youtube_summarizer import YoutubeSummarizer
 
 

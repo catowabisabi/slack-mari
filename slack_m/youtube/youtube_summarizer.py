@@ -19,10 +19,17 @@ import io
 """ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))) """
+
+
+
+
+
 import os
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent.parent))
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 from slack_m.my_llms.my_llms import LLM_OpenAI
 
 from slack_m.split.markdown_split import MDSplit
@@ -248,7 +255,9 @@ class YoutubeSummarizer:
                     # 将摘要添加到标题后面
                     ordered_video_captions = OrderedDict()
                     ordered_video_captions['title'] = video_captions['title']
-                    ordered_video_captions['summary'] = self.summary
+                    ordered_video_captions['zh_summary'] = zh_summary
+                    ordered_video_captions['en_summary'] = en_summary
+                    ordered_video_captions['cn_summary'] = cn_summary
                     ordered_video_captions['dialogue'] = video_captions['dialogue']
                     ordered_video_captions['zh text'] = self.zh_text
 

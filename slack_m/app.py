@@ -20,9 +20,9 @@ import time
 load_dotenv(find_dotenv())
 
 # Set Slack API credentials
-SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
-SLACK_SIGNING_SECRET = os.environ["SLACK_SIGNING_SECRET"]
-SLACK_BOT_USER_ID = os.environ["SLACK_BOT_USER_ID"]
+SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN2"]
+SLACK_SIGNING_SECRET = os.environ["SLACK_SIGNING_SECRET2"]
+SLACK_BOT_USER_ID = os.environ["SLACK_BOT_USER_ID2"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Initialize the Slack app

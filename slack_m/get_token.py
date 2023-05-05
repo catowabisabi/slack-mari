@@ -1,27 +1,18 @@
 import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-from slack_bolt.adapter.flask import SlackRequestHandler
-from slack_bolt import App
+
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, request
-from functions import draft_email
+
 
 # Load environment variables from .env file
 load_dotenv(find_dotenv())
 
 # Set Slack API credentials
-SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
-SLACK_SIGNING_SECRET = os.environ["SLACK_SIGNING_SECRET"]
-SLACK_BOT_USER_ID = os.environ["SLACK_BOT_USER_ID"]
+SLACK_BOT_TOKEN2 = os.environ["SLACK_BOT_TOKEN2"]
+SLACK_SIGNING_SECRET2 = os.environ["SLACK_SIGNING_SECRET2"]
+SLACK_BOT_USER_ID2 = os.environ["SLACK_BOT_USER_ID2"]
 
-# Initialize the Slack app
-app = App(token=SLACK_BOT_TOKEN)
-
-# Initialize the Flask app
-# Flask is a web application framework written in Python
-flask_app = Flask(__name__)
-handler = SlackRequestHandler(app)
 
 
 def get_bot_user_id():
