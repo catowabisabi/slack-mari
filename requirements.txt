@@ -12,3 +12,12 @@ slack-sdk
 slack-bolt
 Flask
 gunicorn
+gensim
+sumy
+openpyxl
+pytube
+youtube_dl
+google-cloud-speech
+textblob 
+googletrans
+matplotlib

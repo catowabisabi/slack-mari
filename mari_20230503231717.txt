@@ -1,0 +1,37 @@
+mari/ (Root Folder 根文件夾)
+    app2.py
+
+    slack/ (Folder 文件夾)
+        app.py
+        functions.py
+        get_token.py
+        greetings.py
+
+        my_llms/ (Folder 文件夾)
+            model_startup.py
+            my_llms.py
+
+            prompts/ (Folder 文件夾)
+                prompt_templates.py
+
+                questions/ (Folder 文件夾)
+                question_templates.py
+                __init__.py
+
+                __pycache__/ (Folder 文件夾)
+
+            __pycache__/ (Folder 文件夾)
+
+        summarizer/ (Folder 文件夾)
+            fx_summarizer.py
+            fx_summarizer2.py
+            fx_summarizer3.py
+
+        youtube/ (Folder 文件夾)
+            youtube_summarizer.py
+
+        __pycache__/ (Folder 文件夾)
+
+    youtube/ (Folder 文件夾)
+        youtube_chat.py
+        youtube_llm.py
