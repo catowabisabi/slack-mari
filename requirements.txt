@@ -19,6 +19,6 @@ pytube
 youtube_dl
 google-cloud-speech
 textblob
-googletrans
+googletrans==4.0.0-rc1
 matplotlib
 psycopg2-binary
