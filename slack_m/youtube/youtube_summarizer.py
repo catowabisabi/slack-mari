@@ -276,6 +276,7 @@ class YoutubeSummarizer:
                 #print("run zh_summary: ", zh_summary)
           
                 #print("run self.summary: ", self.summary)
+                self.summary = zh_summary
             except Exception as e:
                 print("Error summarizing captions." + str(e))
                 return None, None, None, None, None, None

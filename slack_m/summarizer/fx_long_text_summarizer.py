@@ -43,7 +43,7 @@ class LongTextParaphaser:
                 print(reply)
                 zh_paraphrase += (reply + "\n")
             print(zh_paraphrase)
-            print("get_zh_paraphrase finished")
+            print("get_zh_paraphrase finished 1256863")
             return zh_paraphrase
 
         except Exception as e:
