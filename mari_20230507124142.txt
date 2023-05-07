@@ -1,0 +1,65 @@
+mari/ (Root Folder 根文件夾)
+
+    agents/ (Folder 文件夾)
+        agent_001.py
+    app2.py
+
+    audio_folder/ (Folder 文件夾)
+
+    common_imports/ (Folder 文件夾)
+        common_imports.py
+        __init__.py
+
+    database/ (Folder 文件夾)
+        save_json.py
+
+        __pycache__/ (Folder 文件夾)
+
+    fake_data/ (Folder 文件夾)
+        text.py
+        __init__.py
+
+        __pycache__/ (Folder 文件夾)
+
+    introduction/ (Folder 文件夾)
+        quickstart_guide.py
+
+    slack_m/ (Folder 文件夾)
+        app.py
+        functions.py
+        get_token.py
+        greetings.py
+
+        my_llms/ (Folder 文件夾)
+            model_startup.py
+            my_llms.py
+
+            prompts/ (Folder 文件夾)
+                prompt_templates.py
+
+                questions/ (Folder 文件夾)
+                question_templates.py
+                __init__.py
+
+                __pycache__/ (Folder 文件夾)
+
+            __pycache__/ (Folder 文件夾)
+
+        split/ (Folder 文件夾)
+            markdown_split.py
+
+            __pycache__/ (Folder 文件夾)
+
+        summarizer/ (Folder 文件夾)
+            fx_llms.py
+            fx_long_text_summarizer.py
+            fx_summarizer.py
+            fx_summarizer2.py
+            fx_summarizer3.py
+
+            __pycache__/ (Folder 文件夾)
+        __init__.py
+
+        __pycache__/ (Folder 文件夾)
+
+    templates/ (Folder 文件夾)

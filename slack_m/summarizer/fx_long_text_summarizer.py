@@ -33,12 +33,12 @@ class LongTextParaphaser:
             zh_paraphrase = ""
             for doc in docs:
                 i+=1
-                print("第{}個文檔".format(i))
+                print("第{}個文檔".format(i)) 
 
                 list_doc = []
                 list_doc.append(doc)
                 print("list_doc: ", list_doc)
-                query = "請把有意義的內容改寫成為繁體中文。"
+                query = "請把有意義的內容改寫成為繁體中文。 如果你不知道, 你要說明你有什麼不知道的地方。"
                 reply = self.chain.run(input_documents=list_doc, question=query)
                 print(reply)
                 zh_paraphrase += (reply + "\n")
