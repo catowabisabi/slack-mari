@@ -281,7 +281,7 @@ class YoutubeSummarizer:
             try:     
                 self.pprint("Summarizing captions...")
                 self.title = video_captions['title']
-                self.pprint("run title: ", self.title)
+                self.pprint("run title: " + self.title)
 
                 self.pprint("run:::開始運行get_summary...")
                 en_summary, zh_summary, cn_summary = self.get_summary(video_captions['dialogue'])
