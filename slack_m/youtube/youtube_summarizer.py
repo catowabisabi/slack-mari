@@ -265,10 +265,15 @@ class YoutubeSummarizer:
 
         #所有野行一次先!!!
         #data 係json, filename 係Title && 檔名, splitted_caption_docs 係分割好的對話
+        self.pprint('這裏進行get_youtube_video_captions...')
         video_captions, filename, splitted_caption_docs = self.get_youtube_video_captions()
         #self.pprint(splitted_caption_docs[0])
+        self.pprint('這裏完成get_youtube_video_captions...')
 
+        print('檢查video_captions, filename, splitted_caption_docs是否有野...')
         if filename and video_captions:
+            self.pprint('有野...')
+            self.pprint("設定directory...")
             directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dl_captions")
 
             #openai = LLM_OpenAI()
@@ -276,20 +281,24 @@ class YoutubeSummarizer:
             try:     
                 self.pprint("Summarizing captions...")
                 self.title = video_captions['title']
-                print("run title: ", self.title)
+                self.pprint("run title: ", self.title)
+
+                self.pprint("run:::開始運行get_summary...")
                 en_summary, zh_summary, cn_summary = self.get_summary(video_captions['dialogue'])
                 #print("run zh_summary: ", zh_summary)
-          
+                self.pprint("run:::完成運行get_summary...")
                 #print("run self.summary: ", self.summary)
                 self.summary = zh_summary
             except Exception as e:
                 print("Error summarizing captions." + str(e))
                 return None, None, None, None, None, None
+                raise e
 
             try:
                 ltp = LongTextParaphaser()
                 self.zh_paraphrase = ltp.get_zh_paraphrase(video_captions['dialogue'])
                 #print(zh_paraphrase)
+                return self.title, video_captions['dialogue'], en_summary, zh_summary, cn_summary, self.zh_paraphrase
             except Exception as e:
                 print("Error paraphrasing captions." + str(e))
                 return None, None, None, None, None, None
