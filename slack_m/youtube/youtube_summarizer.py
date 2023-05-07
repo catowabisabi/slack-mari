@@ -305,6 +305,7 @@ class YoutubeSummarizer:
                 ordered_video_captions["zh_paraphrase"] = self.zh_paraphrase
                 ordered_video_captions['dialogue'] = video_captions['dialogue']
 
+                print("preparing jsondata...")
                 jsondata ={
                     "title": video_captions['title'],
                     "url": self.url,
@@ -314,23 +315,33 @@ class YoutubeSummarizer:
                     "zh_dialogue": self.zh_paraphrase,
                     "dialogue": video_captions['dialogue']
                 }
+                print("jsondata: ", jsondata)
 
-                ytd = YouTubeData(data=jsondata)
-                ytd.insert_data()
+                print("inserting data to DB...")
                 
+                try:
+                    ytd = YouTubeData(data=jsondata)
+                    ytd.insert_data()
+                except Exception as e:
+                    print("Error inserting data to DB45862." + str(e))
+                    return None, None, None, None, None, None
+                
+                try:
           
-                # 将修改后的数据保存到原有的 JSON 文件中
-                with open(os.path.join(directory, f'{filename}.json'), 'w', encoding='utf-8') as f:
-                    json.dump(ordered_video_captions, f, ensure_ascii=False, indent=2)
+                    # 将修改后的数据保存到原有的 JSON 文件中
+                    with open(os.path.join(directory, f'{filename}.json'), 'w', encoding='utf-8') as f:
+                        json.dump(ordered_video_captions, f, ensure_ascii=False, indent=2)
 
-                #self.pprint(f"Title: {self.title}")
-                #self.pprint(f"GPT: {self.summary}")
-                #print(f"GPT Tech Sum: {summary_tech}")
+                    #self.pprint(f"Title: {self.title}")
+                    #self.pprint(f"GPT: {self.summary}")
+                    #print(f"GPT Tech Sum: {summary_tech}")
+                except Exception as e:
+                    print("Error saving summary. 58963" + str(e))
                 
                 return self.title, ordered_video_captions['dialogue'], en_summary, zh_summary, cn_summary, self.zh_paraphrase
 
             else:
-                print("Failed to summarize video. Error: ", e)
+                print("Failed to summarize video. Error: 最後個度")
                 return None, None, None, None, None, None
 
 
