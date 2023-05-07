@@ -139,5 +139,5 @@ def draft_email(user_input, name="Dave"):
 
 def get_youtube_summary(url):
     my_yt_summarizer = YoutubeSummarizer(url, tech_sum=True, to_zh=False)
-    title, dialogue, en_summary, zh_summary, cn_summary = my_yt_summarizer.run()
-    return title, dialogue, en_summary, zh_summary, cn_summary
+    title, dialogue, en_summary, zh_summary, cn_summary, zh_paraphase = my_yt_summarizer.run()
+    return title, dialogue, en_summary, zh_summary, cn_summary, zh_paraphase

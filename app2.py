@@ -11,12 +11,14 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from slack_m.functions import get_GPT_response, get_youtube_summary
 import random
 from slack_m.greetings import replies, questions
 import time
 import re
+
+import psycopg2
 
 
 
@@ -33,6 +35,13 @@ SLACK_SIGNING_SECRET = os.environ["SLACK_SIGNING_SECRET"]
 SLACK_BOT_USER_ID = os.environ["SLACK_BOT_USER_ID"]
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
+# Set Slack API credentials
+DB_NAME = os.environ["DB_NAME"]
+DB_USER_NAME = os.environ["DB_USER_NAME"]
+DB_PASSWORD = os.environ["DB_PASSWORD"]
+DB_HOST = os.environ["DB_HOST"]
+DB_PORT = os.environ["DB_PORT"]
+
 # Initialize the Slack app
 app = App(token=SLACK_BOT_TOKEN)
 
@@ -40,6 +49,27 @@ app = App(token=SLACK_BOT_TOKEN)
 # Flask is a web application framework written in Python
 flask_app = Flask(__name__)
 handler = SlackRequestHandler(app)
+
+def get_data():
+    conn = psycopg2.connect(
+        dbname=DB_NAME,
+        user=DB_USER_NAME,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT
+    )
+
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM youtube;")
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return data
+
+@flask_app.route("/youtube")
+def youtube():
+    data = get_data()
+    return render_template("youtube.html", data=data)
 
 
 def get_bot_user_id():
@@ -111,9 +141,9 @@ def handle_mentions(body, say):
         text = yt_obj_to_str(text)
         say("收到, 宜家幫你望望個Youtube, 之後同你講返...")
         try:
-            title, dialogue, en_summary, zh_summary, cn_summary = get_youtube_summary(text)
+            title, dialogue, en_summary, zh_summary, cn_summary, zh_paraphrase= get_youtube_summary(text)
             time.sleep(5)
-            if not title and not dialogue and not en_summary and not zh_summary and not cn_summary:
+            if not title and not dialogue and not en_summary and not zh_summary and not cn_summary and not zh_paraphrase: 
                 time.sleep(2)
                 say("Sorry呀... 好似唔係咁得...你不如搵下其他既影片?")
                 
@@ -122,17 +152,19 @@ def handle_mentions(body, say):
                 say(f"Youtube的題目為: {title}")
             if dialogue:
                 time.sleep(2)
-                say(f"Youtube的Caption為: \n{dialogue}")
+                say(f"Youtube的Caption為: \n{dialogue[:100]} ... ")
             if zh_summary:
                 time.sleep(2)
                 say(f"Youtube的中文總結為: \n{zh_summary}")
-            if cn_summary:
+            
+
+            if zh_paraphrase:
                 time.sleep(2)
-                say(f"Youtube的英文總結為: \n{en_summary}")
+                say(f"Youtube的中文內容: \n{zh_paraphrase}")
             
         except Exception as e:
             time.sleep(2)
-            print("Error: ", e)
+            print("Error: ", str(e))
             say("Sorry呀... 我搵唔到呢個影片既字幕。你不如搵下其他既影片?")
             return
 

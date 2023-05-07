@@ -21,3 +21,4 @@ google-cloud-speech
 textblob 
 googletrans
 matplotlib
+psycopg2

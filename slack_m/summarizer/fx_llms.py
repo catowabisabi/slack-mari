@@ -36,6 +36,14 @@ import matplotlib.pyplot as plt
 import warnings
 from warnings import simplefilter
 
+
+from langchain.vectorstores import Chroma
+from langchain.chains.question_answering import load_qa_chain
+
+
+
+
+
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
@@ -82,8 +90,8 @@ class DocsSummarizer:
         if self.summary == None:
             try:
                 self.get_long_summary(text)
-            except:
-                pprint("Error in summarizing docs")
+            except Exception as e:
+                pprint("Error in summarizing docs:  " + str(e))
                 return None
         translator = Translator()
         self.zh_summary = translator.translate(str(self.summary), dest='zh-tw').text
@@ -91,10 +99,16 @@ class DocsSummarizer:
         self.en_summary = translator.translate(str(self.summary), dest='en').text
         return self.en_summary, self.zh_summary, self.cn_summary
     
+    
+
+
+        
+    
     def get_tokens_num(self, text):
         return llm.get_num_tokens(text)
 
-    def get_long_summary(self, text):
+    def get_long_summary(self, text): #成個dialogue
+        pprint("get_long_summary: Summarizing docs...")
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=500)
         #text_splitter = RecursiveCharacterTextSplitter(separators=["\\n\\n", "\\n"], chunk_size=10000, chunk_overlap=500)
         docs = text_splitter.create_documents([text])
@@ -105,14 +119,13 @@ class DocsSummarizer:
         #summary_chain = load_summarize_chain(llm=llm, chain_type='map_reduce', verbose=False)
         #summary = summary_chain.run(docs)
         #print("Summary1: " + str(summary))
-
+        
+#========================================================================================================
         map_prompt = """
             Write a detail summary include all the technical key points if the content is related to technology of the following:
             "{text}"
             DETAIL SUMMARY:
             """
-        map_prompt_template = PromptTemplate(template=map_prompt, input_variables=["text"])
-        
         combine_prompt = """
             Write a detail summary of the following text delimited by triple backquotes, 
             include all the technical key points if the content is related to technology.
@@ -121,15 +134,12 @@ class DocsSummarizer:
             DETAIL SUMMARY:
             BULLET POINT SUMMARY:
             """
-        combine_prompt_template = PromptTemplate(template=combine_prompt, input_variables=["text"])
-
+#========================================================================================================
         map_prompt2 = """
             Paraphrase the following text into an explanatory format:
             "{text}"
             EXPLANATORY FORMAT PARAPHRASE:
             """
-        map_prompt_template2 = PromptTemplate(template=map_prompt2, input_variables=["text"])
-
         combine_prompt2 = """
             Paraphrase the following text delimited by triple backquotes into an explanatory format. 
             include all the technical key points if the content is related to technology.
@@ -138,17 +148,74 @@ class DocsSummarizer:
             EXPLANATORY FORMAT PARAPHRASE:
             BULLET POINT SUMMARY:
             """
-        combine_prompt_template2 = PromptTemplate(template=combine_prompt2, input_variables=["text"])
+#========================================================================================================      
+#改為中文Summarize
+        map_prompt_zh= """
+            對以下內容進行繁體中文詳細摘要，如果內容與技術相關，請包含所有技術要點。格式如下：
+            "繁體中文詳細摘要:
+            [詳細摘要內容...]"
 
-        summary_chain = load_summarize_chain(llm=llm,
-                                     chain_type='map_reduce',
-                                     map_prompt=map_prompt_template,
-                                     combine_prompt=combine_prompt_template,
-                                     verbose=False
-                                    )
+            用戶輸入內容:
+            ```{text}```
+            """
+        combine_prompt_zh = """
+            對以下在三重反引號中的內容進行繁體中文詳細摘要。如果內容與技術相關，請包含所有技術要點。
+            然後，對內容進行BULLET POINT摘要。格式如下：
+
+            "繁體中文詳細摘要:
+            [詳細摘要內容...]
+            
+            BULLET POINT摘要:
+            [BULLET POINT摘要內容...]"
+            
+            用戶輸入內容:
+            ```{text}```
+            """
+#======================================================================================================== 
+        map_prompt_template = PromptTemplate(template=map_prompt, input_variables=["text"])
+        combine_prompt_template = PromptTemplate(template=combine_prompt_zh, input_variables=["text"])
+        try:
+            print("summary_chain in get_long_summary/Summarizing docs...")
+            summary_chain = load_summarize_chain(llm=llm,
+                                        chain_type='map_reduce',
+                                        map_prompt=map_prompt_template,
+                                        combine_prompt=combine_prompt_template,
+                                        verbose=False
+                                        )
+        except Exception as e:
+            print ( str(e))
+            return None
+        
         self.summary = summary_chain.run(docs)
-        return self.summary
+        return self.summary #繁體中文摘要
     
+
+    def get_zh_paraphase(self, docs):
+        print(str(docs))
+        #embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+        # create the vectorestore to use as the index
+        try:
+            result = ""
+            for doc in docs:
+                list_doc = []
+                list_doc.append(doc)
+                chain = load_qa_chain(llm=llm, chain_type="stuff", verbose=False)
+                query = "請把有義意的內容改寫成為繁體中文的講稿格式。"
+       
+                reply = chain.run(input_documents=list_doc, question=query)
+                result += reply
+            return result
+        
+        except Exception as e:
+            print("Error: " + str(e))
+    
+    def print_docs(self, docs):
+        for doc in docs:
+            print (doc)
+            print ("=========================================")
+        
+
+
     def get_vector_summary(self):
 
         # Combine the pages, and replace the tabs with spaces
