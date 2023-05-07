@@ -93,17 +93,23 @@ class DocsSummarizer:
             except Exception as e:
                 pprint("Error in summarizing docs:  " + str(e))
                 return None
+        pprint("開始翻譯...")
         translator = Translator()
-        print("self.zh_summary: " + str(self.zh_summary))
-        print("self.cn_summary: " + str(self.cn_summary))
-        print("self.en_summary: " + str(self.en_summary))
-        self.zh_summary = translator.translate(str(self.summary), dest='zh-tw').text
-        self.cn_summary = translator.translate(str(self.summary), dest='zh-cn').text
-        self.en_summary = translator.translate(str(self.summary), dest='en').text
-        print("self.zh_summary: " + str(self.zh_summary))
-        print("self.cn_summary: " + str(self.cn_summary))
-        print("self.en_summary: " + str(self.en_summary))
-        return self.en_summary, self.zh_summary, self.cn_summary
+        try:
+            print("還沒有翻譯 : self.zh_summary: " + str(self.zh_summary))
+            print("還沒有翻譯 : self.zh_summary: self.cn_summary: " + str(self.cn_summary))
+            print("還沒有翻譯 : self.zh_summary: self.en_summary: " + str(self.en_summary))
+            self.zh_summary = translator.translate(str(self.summary), dest='zh-tw').text
+            self.cn_summary = translator.translate(str(self.summary), dest='zh-cn').text
+            self.en_summary = translator.translate(str(self.summary), dest='en').text
+            print("翻譯完成 : self.zh_summary: self.zh_summary: " + str(self.zh_summary))
+            print("翻譯完成 : self.cn_summary: " + str(self.cn_summary))
+            print("翻譯完成 : self.en_summary: " + str(self.en_summary))
+        
+            return self.en_summary, self.zh_summary, self.cn_summary
+        except Exception as e:
+            pprint("Error in translating: " + str(e))
+            raise e
     
     
 
@@ -189,8 +195,9 @@ class DocsSummarizer:
                                         verbose=False
                                         )
             self.summary = summary_chain.run(docs)
-            print("summary_chain in get_long_summary/Summarizing docs...Done: " + str(self.summary))
+            print("summary_chain in get_long_summary/Summarizing docs...Done (fx_llm最後出既野): " + str(self.summary)) # 呢度係無問題
             return self.summary #繁體中文摘要
+        
             
         except Exception as e:
             print ( str(e))
