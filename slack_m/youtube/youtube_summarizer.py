@@ -288,57 +288,61 @@ class YoutubeSummarizer:
                 print("Error paraphrasing captions." + str(e))
                 return None, None, None, None, None, None
 
-
+            print(f"self.summary: {self.summary}")
             if self.summary:
-                # 将摘要添加到 JSON 数据中
-                self.pprint("Saving summary...")
-                video_captions['summary'] = self.summary
-                
-
-                # 将摘要添加到标题后面
-                ordered_video_captions = OrderedDict()
-                ordered_video_captions['title'] = video_captions['title']
-                ordered_video_captions['url'] = self.url
-                ordered_video_captions['zh_summary'] = zh_summary
-                ordered_video_captions['en_summary'] = en_summary
-                ordered_video_captions['cn_summary'] = cn_summary
-                ordered_video_captions["zh_paraphrase"] = self.zh_paraphrase
-                ordered_video_captions['dialogue'] = video_captions['dialogue']
-
-                print("preparing jsondata...")
-                jsondata ={
-                    "title": video_captions['title'],
-                    "url": self.url,
-                    "zh_summary": zh_summary,
-                    "en_summary": en_summary,
-                    "cn_summary": cn_summary,
-                    "zh_dialogue": self.zh_paraphrase,
-                    "dialogue": video_captions['dialogue']
-                }
-                print("jsondata: ", jsondata)
-
-                print("inserting data to DB...")
-                
                 try:
-                    ytd = YouTubeData(data=jsondata)
-                    ytd.insert_data()
+                    # 将摘要添加到 JSON 数据中
+                    self.pprint("Saving summary...")
+                    video_captions['summary'] = self.summary
+                    
+
+                    # 将摘要添加到标题后面
+                    ordered_video_captions = OrderedDict()
+                    ordered_video_captions['title'] = video_captions['title']
+                    ordered_video_captions['url'] = self.url
+                    ordered_video_captions['zh_summary'] = zh_summary
+                    ordered_video_captions['en_summary'] = en_summary
+                    ordered_video_captions['cn_summary'] = cn_summary
+                    ordered_video_captions["zh_paraphrase"] = self.zh_paraphrase
+                    ordered_video_captions['dialogue'] = video_captions['dialogue']
+
+                    print("preparing jsondata...")
+                    jsondata ={
+                        "title": video_captions['title'],
+                        "url": self.url,
+                        "zh_summary": zh_summary,
+                        "en_summary": en_summary,
+                        "cn_summary": cn_summary,
+                        "zh_dialogue": self.zh_paraphrase,
+                        "dialogue": video_captions['dialogue']
+                    }
+                    print("jsondata: ", jsondata)
+
+                    print("inserting data to DB...")
+                    
+                    try:
+                        ytd = YouTubeData(data=jsondata)
+                        ytd.insert_data()
+                    except Exception as e:
+                        print("Error inserting data to DB45862." + str(e))
+                        return None, None, None, None, None, None
+                    
+                    try:
+            
+                        # 将修改后的数据保存到原有的 JSON 文件中
+                        with open(os.path.join(directory, f'{filename}.json'), 'w', encoding='utf-8') as f:
+                            json.dump(ordered_video_captions, f, ensure_ascii=False, indent=2)
+
+                        #self.pprint(f"Title: {self.title}")
+                        #self.pprint(f"GPT: {self.summary}")
+                        #print(f"GPT Tech Sum: {summary_tech}")
+                    except Exception as e:
+                        print("Error saving summary. 58963" + str(e))
+                    
+                    return self.title, ordered_video_captions['dialogue'], en_summary, zh_summary, cn_summary, self.zh_paraphrase
                 except Exception as e:
-                    print("Error inserting data to DB45862." + str(e))
+                    print("Error saving summary. 58964" + str(e))
                     return None, None, None, None, None, None
-                
-                try:
-          
-                    # 将修改后的数据保存到原有的 JSON 文件中
-                    with open(os.path.join(directory, f'{filename}.json'), 'w', encoding='utf-8') as f:
-                        json.dump(ordered_video_captions, f, ensure_ascii=False, indent=2)
-
-                    #self.pprint(f"Title: {self.title}")
-                    #self.pprint(f"GPT: {self.summary}")
-                    #print(f"GPT Tech Sum: {summary_tech}")
-                except Exception as e:
-                    print("Error saving summary. 58963" + str(e))
-                
-                return self.title, ordered_video_captions['dialogue'], en_summary, zh_summary, cn_summary, self.zh_paraphrase
 
             else:
                 print("Failed to summarize video. Error: 最後個度")
