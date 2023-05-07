@@ -246,7 +246,12 @@ class YoutubeSummarizer:
             #self.text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
 
             en_summary, zh_summary, cn_summary = self.ds.get_zh_summary(docs)
+            print("English summary: " + en_summary)
+            print("Chinese zh summary: " + zh_summary)
+            print("Chinese cn summary: " + cn_summary)
             self.summary = zh_summary 
+            print("summary: " + self.summary)   
+
             return en_summary, zh_summary, cn_summary
         except Exception as e:
             print("Error summarizing captions." + str(e))

@@ -94,9 +94,15 @@ class DocsSummarizer:
                 pprint("Error in summarizing docs:  " + str(e))
                 return None
         translator = Translator()
+        print("self.zh_summary: " + str(self.zh_summary))
+        print("self.cn_summary: " + str(self.cn_summary))
+        print("self.en_summary: " + str(self.en_summary))
         self.zh_summary = translator.translate(str(self.summary), dest='zh-tw').text
         self.cn_summary = translator.translate(str(self.summary), dest='zh-cn').text
         self.en_summary = translator.translate(str(self.summary), dest='en').text
+        print("self.zh_summary: " + str(self.zh_summary))
+        print("self.cn_summary: " + str(self.cn_summary))
+        print("self.en_summary: " + str(self.en_summary))
         return self.en_summary, self.zh_summary, self.cn_summary
     
     
@@ -182,12 +188,15 @@ class DocsSummarizer:
                                         combine_prompt=combine_prompt_template,
                                         verbose=False
                                         )
+            self.summary = summary_chain.run(docs)
+            print("summary_chain in get_long_summary/Summarizing docs...Done: " + str(self.summary))
+            return self.summary #繁體中文摘要
+            
         except Exception as e:
             print ( str(e))
             return None
         
-        self.summary = summary_chain.run(docs)
-        return self.summary #繁體中文摘要
+
     
 
     def get_zh_paraphase(self, docs):

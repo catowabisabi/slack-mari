@@ -18,7 +18,7 @@ openpyxl
 pytube
 youtube_dl
 google-cloud-speech
-textblob 
+textblob
 googletrans
 matplotlib
-psycopg2
+psycopg2-binary
