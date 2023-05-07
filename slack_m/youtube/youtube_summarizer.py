@@ -298,7 +298,7 @@ class YoutubeSummarizer:
                 ltp = LongTextParaphaser()
                 self.zh_paraphrase = ltp.get_zh_paraphrase(video_captions['dialogue'])
                 #print(zh_paraphrase)
-                return self.title, video_captions['dialogue'], en_summary, zh_summary, cn_summary, self.zh_paraphrase
+                
             except Exception as e:
                 print("Error paraphrasing captions." + str(e))
                 return None, None, None, None, None, None
