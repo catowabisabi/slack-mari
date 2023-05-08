@@ -38,7 +38,7 @@ class LongTextParaphaser:
                 list_doc = []
                 list_doc.append(doc)
                 print("list_doc: ", list_doc)
-                query = "請把有意義的內容改寫成為繁體中文。 如果你不知道, 你要說明你有什麼不知道的地方。"
+                query = "這是一個字幕的節錄, 請把內容重寫成為繁體中文, 請盡量還原完整內容, 如句子中斷, 請利用上文下理推理出內容。"
                 reply = self.chain.run(input_documents=list_doc, question=query)
                 print(reply)
                 zh_paraphrase += (reply + "\n")

@@ -8,6 +8,10 @@ from langchain.llms import OpenAI
 from langchain.chat_models import ChatOpenAI
 from langchain.agents import AgentType
 
+# google
+# gmail
+# 新聞
+# 買賣
 class ChatAgent:
     def run(self, question):
         
