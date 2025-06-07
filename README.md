@@ -1,85 +1,108 @@
-LangChain 實驗
-這個程式庫專注於使用 LangChain 庫進行實驗，利用大型語言模型（LLM）建立強大的應用程序。通過利用最先進的語言模型（如 OpenAI 的 GPT-3.5 Turbo，以及即將推出的 GPT-4），該項目展示了如何從 YouTube 視頻轉錄中創建可搜索的數據庫，使用 FAISS 庫執行相似性搜索查詢，並通過相關而精確的信息回答用戶的問題。
+# Slack Mari Bot 🤖 / Slack Mari 機器人 🤖
 
-LangChain 是一個全面的框架，專門設計用於開發由語言模型驅動的應用程序。它不僅僅是通過 API 調用 LLM，而最先進和有區別的應用程序還具有數據感知和代理能力，使語言模型能夠連接其他數據源並與其環境交互。LangChain 框架專門建立用於解決這些原則。
+## 📖 Introduction / 簡介
 
-LangChain
-LangChain 的文檔的 Python 版本涵蓋了幾個主要模塊，每個模塊提供示例，如何指南，參考文檔和概念指南。這些模塊包括：
+Slack Mari Bot is an intelligent assistant that combines the power of GPT, YouTube summarization, and natural conversation capabilities. It serves as both a professional secretary and a friendly companion in your Slack workspace, capable of communicating in Traditional Chinese, English, Cantonese, and Japanese.
 
-模型：LangChain 支持的各種模型類型和模型集成。
-提示：提示管理，優化和序列化。
-記憶體：在鏈或代理調用之間的狀態持久性，包括標準內存接口、內存實現和使用內存的鏈和代理示例。
-索引：結合自定義文本數據與 LLMs 以增強其功能。
-鏈：調用序列，無論是調用 LLM 還是不同的實用程序，都具有標準接口、集成和端到端鏈示例。
-代理：作出行動決策、觀察結果並重複這個過程直到完成的 LLM，具有標準接口、代理選擇和端到端代理示例。
+Slack Mari Bot 是一個智能助手，結合了 GPT、YouTube 影片摘要和自然對話功能。它在您的 Slack 工作空間中既可以作為專業秘書，也可以作為友好的伴侶，能夠使用繁體中文、英文、粵語和日語進行溝通。
 
+## 🎯 Purpose / 用途
 
-LangChain Experiments
-This repository focuses on experimenting with the LangChain library for building powerful applications with large language models (LLMs). By leveraging state-of-the-art language models like OpenAI's GPT-3.5 Turbo (and soon GPT-4), this project showcases how to create a searchable database from a YouTube video transcript, perform similarity search queries using the FAISS library, and respond to user questions with relevant and precise information.
+The bot is designed to enhance team productivity and communication by:
+- Providing intelligent responses to queries
+- Summarizing YouTube videos in multiple languages
+- Offering professional assistance as a secretary
+- Creating a more engaging and interactive workspace environment
 
-LangChain is a comprehensive framework designed for developing applications powered by language models. It goes beyond merely calling an LLM via an API, as the most advanced and differentiated applications are also data-aware and agentic, enabling language models to connect with other data sources and interact with their environment. The LangChain framework is specifically built to address these principles.
+機器人旨在通過以下方式提升團隊生產力和溝通效率：
+- 為查詢提供智能回應
+- 以多種語言總結 YouTube 影片內容
+- 提供專業的秘書協助
+- 創造更具互動性的工作空間環境
 
-LangChain
-The Python-specific portion of LangChain's documentation covers several main modules, each providing examples, how-to guides, reference docs, and conceptual guides. These modules include:
+## ✨ Features / 主要功能
 
-Models: Various model types and model integrations supported by LangChain.
-Prompts: Prompt management, optimization, and serialization.
-Memory: State persistence between chain or agent calls, including a standard memory interface, memory implementations, and examples of chains and agents utilizing memory.
-Indexes: Combining LLMs with custom text data to enhance their capabilities.
-Chains: Sequences of calls, either to an LLM or a different utility, with a standard interface, integrations, and end-to-end chain examples.
-Agents: LLMs that make decisions about actions, observe the results, and repeat the process until completion, with a standard interface, agent selection, and end-to-end agent examples.
-Use Cases
-With LangChain, developers can create various applications, such as customer support chatbots, automated content generators, data analysis tools, and intelligent search engines. These applications can help businesses streamline their workflows, reduce manual labor, and improve customer experiences.
+1. **Multilingual Communication / 多語言溝通**
+   - Traditional Chinese / 繁體中文
+   - English / 英文
+   - Cantonese / 粵語
+   - Japanese / 日語
 
-Service
-By selling LangChain-based applications as a service to businesses, you can provide tailored solutions to meet their specific needs. For instance, companies can benefit from customizable chatbots that handle customer inquiries, personalized content creation tools for marketing, or internal data analysis systems that harness the power of LLMs to extract valuable insights. The possibilities are vast, and LangChain's flexible framework makes it the ideal choice for developing and deploying advanced language model applications in diverse industries.
+2. **YouTube Video Processing / YouTube 影片處理**
+   - Video summarization / 影片摘要
+   - Caption extraction / 字幕提取
+   - Multi-language summaries / 多語言總結
 
-Requirements
-Python 3.6 or higher
-LangChain library
-OpenAI API key
-SerpAPI API Key
-OpenAI API Models
-The OpenAI API is powered by a diverse set of models with different capabilities and price points. You can also make limited customizations to our original base models for your specific use case with fine-tuning.
+3. **Intelligent Conversation / 智能對話**
+   - Context-aware responses / 上下文感知回應
+   - Professional secretary mode / 專業秘書模式
+   - Casual conversation mode / 輕鬆對話模式
 
-Installation
-1. Clone the repository
-git clone https://github.com/your-username/langchain-experiments.git
+## ⚙️ Installation / 安裝
 
-2. Create a Python environment
-Python 3.6 or higher using venv or conda. Using venv:
+1. **Prerequisites / 前置要求**
+   ```bash
+   # Install required packages / 安裝所需套件
+   pip install slack-sdk slack-bolt Flask langchain openai youtube-dl pytube google-cloud-speech-v1p1beta1 python-dotenv
+   ```
 
-cd langchain-experiments
-python3 -m venv env
-source env/bin/activate
-Using conda:
+2. **Environment Setup / 環境設置**
+   ```bash
+   # Create .env file / 創建 .env 文件
+   touch .env
 
+   # Add the following environment variables / 添加以下環境變量
+   SLACK_BOT_TOKEN2=your-slack-bot-token
+   SLACK_SIGNING_SECRET2=your-slack-signing-secret
+   SLACK_BOT_USER_ID2=your-slack-bot-user-id
+   OPENAI_API_KEY=your-openai-api-key
+   ```
 
-cd langchain-experiments
-conda create -n langchain-env python=3.8
-conda activate langchain-env
+## 🚀 Usage / 使用方法
 
+1. **Start the Bot / 啟動機器人**
+   ```bash
+   python slack_m/app.py
+   ```
 
-3. Install the required dependencies
-pip install -r requirements.txt
+2. **Interact with the Bot / 與機器人互動**
+   - Mention the bot with `@Mari` in any channel
+   - Send YouTube URLs for summarization
+   - Ask questions or request assistance
+   - Empty mention for casual conversation
 
-4. Set up the keys in a .env file
-First, create a .env file in the root directory of the project. Inside the file, add your OpenAI API key:
+   ```
+   @Mari How are you today?
+   @Mari https://youtube.com/watch?v=example
+   @Mari Can you help me draft an email?
+   ```
 
-makefile
-OPENAI_API_KEY=your_api_key_here
-Save the file and close it. In your Python script or Jupyter notebook, load the .env file using the following code:
+## 📂 Module Breakdown / 模組說明
 
-python
+1. **Core Components / 核心組件**
+   - `app.py`: Main application logic / 主要應用邏輯
+   - `functions.py`: Core functionality implementations / 核心功能實現
+   - `get_token.py`: Slack authentication handling / Slack 認證處理
 
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
-By using the right naming convention for the environment variable, you don't have to manually store the key in a separate variable and pass it to the function. The library or package that requires the API key will automatically recognize the OPENAI_API_KEY environment variable and use its value.
+2. **YouTube Processing / YouTube 處理**
+   - `youtube_summarizer.py`: Video processing and summarization / 影片處理和摘要
+   - `youtube/`: YouTube-related utilities / YouTube 相關工具
 
-When needed, you can access the OPENAI_API_KEY as an environment variable:
+3. **Language Processing / 語言處理**
+   - `my_llms/`: Language model integration / 語言模型整合
+   - `summarizer/`: Text summarization utilities / 文本摘要工具
+   - `split/`: Text splitting and processing / 文本分割和處理
 
-python
+4. **Utility Modules / 工具模組**
+   - `greetings.py`: Response templates / 回應模板
+   - `database/`: Data storage utilities / 數據存儲工具
 
-import os
-api_key = os.environ['OPENAI_API_KEY']
-Now your Python environment is set up, and you can proceed with running the experiments
+## 🔒 Security Note / 安全注意事項
+
+Always keep your API keys and tokens secure. Never commit them directly to your repository.
+請務必確保您的 API 密鑰和令牌安全。切勿直接將它們提交到代碼庫中。
+
+---
+
+For more detailed information about each module and feature, please refer to the individual module documentation.
+有關每個模組和功能的更詳細信息，請參閱各個模組的文檔。
